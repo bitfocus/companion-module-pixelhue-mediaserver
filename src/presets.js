@@ -9,7 +9,7 @@ const getPrograms = (num) => {
 			name: 'Program ' + i,
 			style: {
 				text: 'Program\\n' + i,
-				size: '18',
+				size: '14',
 				color: combineRgb(0, 0, 0),
 				bgcolor: combineRgb(0, 255, 0),
 			},
@@ -40,7 +40,7 @@ const programOptPresets = {
     name: 'Pause',
     style: {
       text: 'Pause',
-			size: '24',
+			size: '18',
 			color: combineRgb(255, 255, 255),
 			bgcolor: combineRgb(255, 0, 0),
     },
