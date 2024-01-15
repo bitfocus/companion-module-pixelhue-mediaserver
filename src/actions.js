@@ -46,18 +46,6 @@ exports.getActions = function (instance) {
 		}
 	}
 
-	actions['update_program'] = {
-		name: 'update_program',
-		options: [],
-		callback: async (event) => {
-			try {
-				getPrograms(instance)
-			}catch(error){
-				instance.log('error', 'update_program cmd send error')
-			}
-		}
-	}
-
 	actions['pause_program'] = {
 		name: 'pause_program',
 		options: [],

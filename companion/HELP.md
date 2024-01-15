@@ -5,14 +5,18 @@ This module will allow you to control the following PixelHue media server produc
 ### Configuration
 
 - Enter the IP address of the product in the configuration settings.
-- The device will use UDP communication.
 
 **Available actions:**
 
 - Program
-- Pause
-- Play
-- Stop
-- FTB
-- Volume
-- PPT page up/down
+- Pause_program
+- Play_program
+- Stop_program
+- Open_ftb
+- Close_ftb
+- Open_volume
+- Close_volume
+- ppt_pgup
+- ppt_pgdn
+- Volume_up
+- Volume_down

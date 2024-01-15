@@ -99,29 +99,7 @@ const programOptPresets = {
 			},
 		],
 		feedbacks: [],
-  },
-	update: {
-		type: 'button',
-    category: 'Program Basics Operations',
-    name: 'Update',
-    style: {
-      text: 'Update',
-			size: '18',
-			color: combineRgb(255, 255, 255),
-			bgcolor: combineRgb(0, 0, 0),
-    },
-    steps: [
-			{
-				down: [
-					{
-						actionId: 'update_program',
-						options: {},
-					},
-				],
-			},
-		],
-		feedbacks: [],
-	}
+  }
 }
 
 const basicPresets = {
