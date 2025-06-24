@@ -1,4 +1,4 @@
-const { combineRgb } = require('@companion-module/base');
+const { combineRgb } = require('@companion-module/base')
 
 const getPrograms = (num) => {
 	const playPrograms = {}
@@ -31,20 +31,20 @@ const getPrograms = (num) => {
 	}
 	return playPrograms
 }
-const programListPresets = getPrograms(256);
+const programListPresets = getPrograms(256)
 
 const programOptPresets = {
-  pause: {
-    type: 'button',
-    category: 'Program Basics Operations',
-    name: 'Pause',
-    style: {
-      text: 'Pause',
+	pause: {
+		type: 'button',
+		category: 'Program Basics Operations',
+		name: 'Pause',
+		style: {
+			text: 'Pause',
 			size: '18',
 			color: combineRgb(255, 255, 255),
 			bgcolor: combineRgb(255, 0, 0),
-    },
-    steps: [
+		},
+		steps: [
 			{
 				down: [
 					{
@@ -55,18 +55,18 @@ const programOptPresets = {
 			},
 		],
 		feedbacks: [],
-  },
-  play: {
-    type: 'button',
-    category: 'Program Basics Operations',
-    name: 'Play',
-    style: {
-      text: 'Play',
+	},
+	play: {
+		type: 'button',
+		category: 'Program Basics Operations',
+		name: 'Play',
+		style: {
+			text: 'Play',
 			size: '24',
 			color: combineRgb(255, 255, 255),
 			bgcolor: combineRgb(255, 0, 0),
-    },
-    steps: [
+		},
+		steps: [
 			{
 				down: [
 					{
@@ -77,18 +77,18 @@ const programOptPresets = {
 			},
 		],
 		feedbacks: [],
-  },
-  stop: {
-    type: 'button',
-    category: 'Program Basics Operations',
-    name: 'Stop',
-    style: {
-      text: 'Stop',
+	},
+	stop: {
+		type: 'button',
+		category: 'Program Basics Operations',
+		name: 'Stop',
+		style: {
+			text: 'Stop',
 			size: '24',
 			color: combineRgb(255, 255, 255),
 			bgcolor: combineRgb(255, 0, 0),
-    },
-    steps: [
+		},
+		steps: [
 			{
 				down: [
 					{
@@ -99,7 +99,52 @@ const programOptPresets = {
 			},
 		],
 		feedbacks: [],
-  }
+	},
+	/** 全局停止 */
+	global_stop: {
+		type: 'button',
+		category: 'Program Basics Operations',
+		name: 'Global Stop',
+		style: {
+			text: 'Global\nStop',
+			size: 'auto',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(255, 0, 0),
+		},
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'stop',
+						options: {},
+					},
+				],
+			},
+		],
+		feedbacks: [],
+	},
+	// update: {
+	//   type: 'button',
+	//   category: 'Program Basics Operations',
+	//   name: 'Update',
+	//   style: {
+	//     text: 'Update',
+	//     size: '18',
+	//     color: combineRgb(255, 255, 255),
+	//     bgcolor: combineRgb(0, 0, 0),
+	//   },
+	//   steps: [
+	//     {
+	//       down: [
+	//         {
+	//           actionId: 'update_program',
+	//           options: {},
+	//         },
+	//       ],
+	//     },
+	//   ],
+	//   feedbacks: [],
+	// }
 }
 
 const basicPresets = {
@@ -147,7 +192,7 @@ const basicPresets = {
 		],
 		feedbacks: [],
 	},
-  open_volume: {
+	open_volume: {
 		type: 'button',
 		category: 'Basics',
 		name: 'Open Volume',
@@ -169,7 +214,7 @@ const basicPresets = {
 		],
 		feedbacks: [],
 	},
-  close_volume: {
+	close_volume: {
 		type: 'button',
 		category: 'Basics',
 		name: 'Close Volume',
@@ -191,7 +236,7 @@ const basicPresets = {
 		],
 		feedbacks: [],
 	},
-  ppt_pgup: {
+	ppt_pgup: {
 		type: 'button',
 		category: 'Basics',
 		name: 'PPT pg up',
@@ -213,7 +258,7 @@ const basicPresets = {
 		],
 		feedbacks: [],
 	},
-  ppt_pgdn: {
+	ppt_pgdn: {
 		type: 'button',
 		category: 'Basics',
 		name: 'PPT pg dn',
@@ -235,7 +280,7 @@ const basicPresets = {
 		],
 		feedbacks: [],
 	},
-  volume_up: {
+	volume_up: {
 		type: 'button',
 		category: 'Basics',
 		name: 'Volume +',
@@ -257,7 +302,7 @@ const basicPresets = {
 		],
 		feedbacks: [],
 	},
-  volume_down: {
+	volume_down: {
 		type: 'button',
 		category: 'Basics',
 		name: 'Volume -',
@@ -277,6 +322,38 @@ const basicPresets = {
 				],
 			},
 		],
+		feedbacks: [],
+	},
+	// 音量旋钮
+	volumeOpt: {
+		type: 'button',
+		category: 'Basics',
+		name: 'Volume',
+		style: {
+			text: 'Volume',
+			size: '18',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(0, 0, 0),
+		},
+		steps: [
+			{
+				rotate_left: [
+					{
+						actionId: 'volume_down',
+						options: {},
+					},
+				],
+				rotate_right: [
+					{
+						actionId: 'volume_up',
+						options: {},
+					},
+				],
+			},
+		],
+		options: {
+			rotaryActions: true,
+		},
 		feedbacks: [],
 	},
 }
@@ -344,12 +421,287 @@ const displayPresets = {
 	},
 }
 
+const addForFX3ProPresets = {
+	/** 本次版本不做 */
+	// /** take带效果 */
+	// take: {
+	// 	type: 'button',
+	// 	category: 'Program Basics Operations',
+	// 	name: 'Take',
+	// 	style: {
+	// 		text: 'Take',
+	// 		size: '18',
+	// 		color: combineRgb(255, 255, 255),
+	// 		bgcolor: combineRgb(0, 0, 0),
+	// 	},
+	// 	steps: [
+	// 		{
+	// 			down: [
+	// 				{
+	// 					actionId: 'take_program',
+	// 					options: {},
+	// 				},
+	// 			],
+	// 		},
+	// 	],
+	// 	feedbacks: [],
+	// },
+	// /** 直切 */
+	// cut: {
+	// 	type: 'button',
+	// 	category: 'Program Basics Operations',
+	// 	name: 'Cut',
+	// 	style: {
+	// 		text: 'Cut',
+	// 		size: '18',
+	// 		color: combineRgb(255, 255, 255),
+	// 		bgcolor: combineRgb(0, 0, 0),
+	// 	},
+	// 	steps: [
+	// 		{
+	// 			down: [{ actionId: 'cut_program', options: {} }],
+	// 		},
+	// 	],
+	// 	feedbacks: [],
+	// },
+	/**
+	 * 切换测试画面
+	 */
+	test_program: {
+		type: 'button',
+		category: 'Display',
+		name: 'Toggle Test Program',
+		style: {
+			text: 'Toggle Test Program',
+			size: '18',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(0, 0, 0),
+		},
+		steps: [
+			{
+				down: [{ actionId: 'open_test_program', options: {} }],
+			},
+			{
+				down: [{ actionId: 'close_test_program', options: {} }],
+			},
+		],
+		feedbacks: [],
+	},
+	/** 打开测试画面 */
+	open_test_program: {
+		type: 'button',
+		category: 'Basics',
+		name: 'Open Test Pic',
+		style: {
+			text: 'On Test Pic',
+			size: '18',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(0, 0, 0),
+		},
+		steps: [
+			{
+				down: [{ actionId: 'open_test_program', options: {} }],
+			},
+		],
+		feedbacks: [],
+	},
+	/** 关闭测试画面 */
+	close_test_program: {
+		type: 'button',
+		category: 'Basics',
+		name: 'OFF Test Pic',
+		style: {
+			text: 'OFF Test Pic',
+			size: '18',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(0, 0, 0),
+		},
+		steps: [
+			{
+				down: [{ actionId: 'close_test_program', options: {} }],
+			},
+		],
+		feedbacks: [],
+	},
+	/** 播放上一个画面 */
+	previous_program: {
+		type: 'button',
+		category: 'Basics',
+		name: 'Prev Program',
+		style: {
+			text: 'Prev Program',
+			size: '16',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(0, 0, 0),
+		},
+		steps: [
+			{
+				down: [{ actionId: 'previous_program', options: {} }],
+			},
+		],
+		feedbacks: [],
+	},
+	/** 播放下一个画面 */
+	next_program: {
+		type: 'button',
+		category: 'Basics',
+		name: 'Next Program',
+		style: {
+			text: 'Next Program',
+			size: '16',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(0, 0, 0),
+		},
+		steps: [
+			{
+				down: [{ actionId: 'next_program', options: {} }],
+			},
+		],
+		feedbacks: [],
+	},
+	/** 亮度调节 + */
+	brightness_up: {
+		type: 'button',
+		category: 'Basics',
+		name: 'Brightness +',
+		style: {
+			text: 'Brightness\n+',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(0, 0, 0),
+		},
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'brightness_up',
+						options: {},
+					},
+				],
+			},
+		],
+		feedbacks: [],
+	},
+	/** 亮度调节 - */
+	brightness_down: {
+		type: 'button',
+		category: 'Basics',
+		name: 'Brightness -',
+		style: {
+			text: 'Brightness\n-',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(0, 0, 0),
+		},
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'brightness_down',
+						options: {},
+					},
+				],
+			},
+		],
+		feedbacks: [],
+	},
+	/** 亮度旋钮 */
+	brightness: {
+		type: 'button',
+		category: 'Basics',
+		name: 'Brightness',
+		style: {
+			text: 'Brightness',
+			size: '14',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(0, 0, 0),
+		},
+		steps: [
+			{
+				rotate_left: [
+					{
+						actionId: 'brightness_down',
+						options: {},
+					},
+				],
+				rotate_right: [
+					{
+						actionId: 'brightness_up',
+						options: {},
+					},
+				],
+			},
+		],
+		options: {
+			rotaryActions: true,
+		},
+		feedbacks: [],
+	},
+	/** 全局暂停 */
+	global_pause: {
+		type: 'button',
+		category: 'Program Basics Operations',
+		name: 'Global Pause',
+		style: {
+			text: 'Global\nPause',
+			size: 'auto',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(255, 0, 0),
+		},
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'pause',
+						options: {},
+					},
+				],
+			},
+		],
+		feedbacks: [],
+	},
+	/** 全局播放 */
+	global_play: {
+		type: 'button',
+		category: 'Program Basics Operations',
+		name: 'Global Play',
+		style: {
+			text: 'Global\nPlay',
+			size: 'auto',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(255, 0, 0),
+		},
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'play',
+						options: {},
+					},
+				],
+			},
+		],
+		feedbacks: [],
+	},
+}
 
-exports.getPresetDefinitions = function () {
+const getPresetDefinitions = function () {
 	return {
-    ...programListPresets,
-    ...programOptPresets,
+		...programListPresets,
+		...programOptPresets,
 		...basicPresets,
-    ...displayPresets,
+		...displayPresets,
 	}
+}
+
+const getAllPresetDefinitions = function () {
+	return {
+		...getPresetDefinitions(),
+		...addForFX3ProPresets,
+	}
+}
+
+module.exports = {
+	getPresetDefinitions,
+	getAllPresetDefinitions,
 }

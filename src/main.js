@@ -6,163 +6,178 @@ const presets = require('./presets')
 
 const { getPrograms } = require('../utils/getPrograms')
 const { decodePrograms, decodeControlProtocol } = require('../utils/cmdCodec')
-const { PRODUCTS_INFO, PRODUCTS_INFORMATION } = require('../utils/constant')
+const { PRODUCTS_INFO, PRODUCTS_INFORMATION, ADD_ACTIONS_DEVICES } = require('../utils/constant')
 
 class ModuleInstance extends InstanceBase {
-  constructor(internal) {
-    super(internal)
+	constructor(internal) {
+		super(internal)
 
-    Object.assign(this, {
-      ...actions,
-    })
+		Object.assign(this, {
+			...actions,
+		})
 
-    this.PRODUCTS_INFO = PRODUCTS_INFO
-    this.PRODUCTS = Object.values(this.PRODUCTS_INFO)
-  }
+		this.PRODUCTS_INFO = PRODUCTS_INFO
+		this.log('debug', `PRODUCTS_INFO ${this.PRODUCTS_INFO}`)
+		this.PRODUCTS = Object.values(this.PRODUCTS_INFO)
+	}
 
-  updateActions() {
-    this.setActionDefinitions(actions.getActions(this))
-  }
+	updateActions() {
+		this.setActionDefinitions(
+			ADD_ACTIONS_DEVICES.includes(this.config.modelId) ? actions.getAllActions(this) : actions.getActions(this)
+		)
+	}
 
-  initUDP() {
-    if (this.udp) {
-      this.udp.destroy()
-      delete this.udp
-    }
+	updatePresets() {
+		this.setPresetDefinitions(
+			ADD_ACTIONS_DEVICES.includes(this.config.modelId)
+				? presets.getAllPresetDefinitions()
+				: presets.getPresetDefinitions()
+		)
+	}
 
-    if (this.config.host) {
-      this.udp = new UDPHelper(this.config.host, this.config.port ?? 18960, { bind_ip: this.config.host, bind_port: 18961 })
+	initUDP() {
+		if (this.udp) {
+			this.udp.destroy()
+			delete this.udp
+		}
 
-      this.udp.on('error', (err) => {
-        this.log('error', 'Network error: ' + err.message)
-        this.updateStatus(InstanceStatus.ConnectionFailure, err.message)
-      })
+		if (this.config.host) {
+			this.udp = new UDPHelper(this.config.host, this.config.port ?? 18960, {
+				bind_ip: this.config.host,
+				bind_port: 18961,
+			})
 
-      this.udp.on('listening', () => {
-        this.log('debug', 'UDP listening')
-        this.updateStatus(InstanceStatus.Ok)
-        getPrograms(this)
-      })
+			this.udp.on('error', (err) => {
+				this.log('error', 'Network error: ' + err.message)
+				this.updateStatus(InstanceStatus.ConnectionFailure, err.message)
+			})
 
-      // If we get data, thing should be good
-      this.udp.on('data', (msg) => {
-        this.log('debug', 'initUDP getData')
+			this.udp.on('listening', () => {
+				this.log('debug', 'UDP listening')
+				this.updateStatus(InstanceStatus.Ok)
+				getPrograms(this)
+			})
 
-        const res = decodeControlProtocol(msg)
+			// If we get data, thing should be good
+			this.udp.on('data', (msg) => {
+				this.log('debug', 'initUDP getData')
 
-        if (res.tag !== 129) {
-          console.log(`响应tag: ${res.tag}`)
-          this.log('debug', `响应tag: ${res.tag}`)
-          return;
-        };
+				const res = decodeControlProtocol(msg)
 
-        const result = decodePrograms(res.data)
+				if (res.tag !== 129) {
+					console.log(`响应tag: ${res.tag}`)
+					this.log('debug', `响应tag: ${res.tag}`)
+					return
+				}
 
-        console.log('~~~~~~~~~~~~~res', JSON.stringify(result))
-        // this.status(this.STATE_WARNING, 'Connecting...')
-      })
+				const result = decodePrograms(res.data)
 
-      this.udp.on('status_change', (status, message) => {
-        this.updateStatus(status, message)
-        this.log('debug', 'UDP status_change: ' + status)
-      })
-      this.log('debug', 'initUDP finish')
-    } else {
-      this.log('error', 'No host configured')
-      this.updateStatus(InstanceStatus.BadConfig)
-    }
-  }
+				console.log('~~~~~~~~~~~~~res', JSON.stringify(result))
+				// this.status(this.STATE_WARNING, 'Connecting...')
+			})
 
-  async init(config) {
-    this.config = config
+			this.udp.on('status_change', (status, message) => {
+				this.updateStatus(status, message)
+				this.log('debug', 'UDP status_change: ' + status)
+			})
+			this.log('debug', 'initUDP finish')
+		} else {
+			this.log('error', 'No host configured')
+			this.updateStatus(InstanceStatus.BadConfig)
+		}
+	}
 
-    if (this.config.modelID !== undefined) {
-      this.model = this.PRODUCTS_INFO[this.config.modelID]
-    } else {
-      this.config.modelID = this.PRODUCTS[0]
-      this.model = this.PRODUCTS_INFO[this.config.modelID]
-    }
+	async init(config) {
+		this.config = config
 
-    // 当前节目列表及节目id
-    this.programList = [];
-    this.programId = 0;
+		if (this.config.modelID !== undefined) {
+			this.model = this.PRODUCTS_INFO[this.config.modelID]
+		} else {
+			this.config.modelID = this.PRODUCTS[0]
+			this.model = this.PRODUCTS_INFO[this.config.modelID]
+		}
 
-    this.updateStatus(InstanceStatus.Connecting)
+		// 当前节目列表及节目id
+		this.programList = []
+		this.programId = 0
 
-    this.initUDP()
+		this.updateStatus(InstanceStatus.Connecting)
 
-    this.updateActions()
-    this.setPresetDefinitions(presets.getPresetDefinitions(this))
-  }
+		this.initUDP()
 
-  // When module gets deleted
-  async destroy() {
-    if (this.socket !== undefined) {
-      this.socket.destroy()
-    }
-    if (this.udp !== undefined) {
-      this.udp.destroy()
-    }
-    this.log('debug', 'destroy')
-  }
+		this.updateActions()
+		this.updatePresets()
+	}
 
-  // Return config fields for web config
-  getConfigFields() {
-    return [
-      {
-        type: 'static-text',
-        id: 'info',
-        width: 12,
-        label: 'Information',
-        value: PRODUCTS_INFORMATION,
-      },
-      {
-        type: 'textinput',
-        id: 'host',
-        label: 'IP Address',
-        width: 6,
-        default: '192.168.0.10',
-        regex: Regex.IP,
-      },
-      {
-        type: 'textinput',
-        id: 'port',
-        label: 'UDP Port',
-        width: 6,
-        default: '18960',
-        regex: Regex.PORT,
-      },
-      {
-        type: 'dropdown',
-        id: 'modelId',
-        label: 'Model',
-        width: 6,
-        choices: this.PRODUCTS,
-        default: this.PRODUCTS[0].id,
-      },
-    ]
-  }
+	// When module gets deleted
+	async destroy() {
+		if (this.socket !== undefined) {
+			this.socket.destroy()
+		}
+		if (this.udp !== undefined) {
+			this.udp.destroy()
+		}
+		this.log('debug', 'destroy')
+	}
 
-  async configUpdated(config) {
-    let resetConnection = false
+	// Return config fields for web config
+	getConfigFields() {
+		return [
+			{
+				type: 'static-text',
+				id: 'info',
+				width: 12,
+				label: 'Information',
+				value: PRODUCTS_INFORMATION,
+			},
+			{
+				type: 'textinput',
+				id: 'host',
+				label: 'IP Address',
+				width: 6,
+				default: '192.168.0.10',
+				regex: Regex.IP,
+			},
+			{
+				type: 'textinput',
+				id: 'port',
+				label: 'UDP Port',
+				width: 6,
+				default: '18960',
+				regex: Regex.PORT,
+			},
+			{
+				type: 'dropdown',
+				id: 'modelId',
+				label: 'Model',
+				width: 6,
+				choices: this.PRODUCTS,
+				default: this.PRODUCTS[0].id,
+			},
+		]
+	}
 
-    if (this.config.host != config.host) {
-      resetConnection = true
-    }
+	async configUpdated(config) {
+		let resetConnection = false
 
-    this.log('info', 'configUpdated module....')
+		if (this.config.host != config.host) {
+			resetConnection = true
+		}
 
-    this.config = {
-      ...this.config,
-      ...config
-    }
-    this.model = this.PRODUCTS[config.modelID]
+		this.log('info', 'configUpdated module....')
 
-    if (resetConnection === true || this.socket === undefined) {
-      this.updateStatus(InstanceStatus.Connecting)
-      this.initUDP()
-    }
-  }
+		this.config = {
+			...this.config,
+			...config,
+		}
+		this.model = this.PRODUCTS[config.modelID]
+		this.updatePresets()
+		this.updateActions()
+		if (resetConnection === true || this.socket === undefined) {
+			this.updateStatus(InstanceStatus.Connecting)
+			this.initUDP()
+		}
+	}
 }
 
 runEntrypoint(ModuleInstance, UpgradeScripts)

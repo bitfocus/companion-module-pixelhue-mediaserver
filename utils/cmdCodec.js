@@ -17,6 +17,20 @@ const toHex = (number, length) => {
 }
 
 /**
+ * 按照小端字节序补齐数组，空位填0x00
+ * @param {number[]} arr - 当前数组
+ * @param {number} len - 目标长度
+ * @returns {number[]} - 补齐后的数组
+ */
+function padArrayLittleEndian(arr, len) {
+  const result = arr.slice(); // 复制原数组
+  while (result.length < len) {
+    result.push(0x00);
+  }
+  return result.slice(0, len);
+}
+
+/**
  * 解析中控协议返回的响应数据为tag、valBuffer
  * @param data 中控协议回的包：二进制数据
  * @returns
@@ -66,8 +80,17 @@ exports.encodeControlProtocol = (data) => {
   ];
   // 业务数据长度，协议业务数据长度固定，dataLen
   const valLenBuffer = toHex(data.dataLen, 2);
-  // 业务数据：固定位，目前都为数值
-  const dataBuffer = data.dataLen > 0 ? toHex(data.data, data.dataLen) : [];
+  // 业务数据：固定位，dataType不存在则默认为数值进行转换；dataType为hex则为字节数组, 按 dataLen 补齐
+  let dataBuffer = [];
+  if (data.dataLen > 0) {
+    if (data.dataType === 'hex') {
+      dataBuffer = data.data.length === data.dataLen
+        ? data.data
+        : padArrayLittleEndian(data.data, data.dataLen);
+    } else {
+      dataBuffer = toHex(data.data, data.dataLen);
+    }
+  }
   // content长度: 内容区总长度
   const contentLenBuffer = toHex(data.dataLen + 4, 2);
   // buffer总长度
@@ -95,17 +118,17 @@ exports.decodePrograms = (data) => {
   const counts = dataView.getUint32(0, true);
   const index = dataView.getUint32(4, true);
   const id = dataView.getUint32(8, true);
-  
+
   //获取name数组
   const nameArray = data.slice(12, -1);
   const name = new TextDecoder().decode(nameArray);
-   
+
   const res = {
     counts,
     index,
     id,
     name
   }
-  
+
   return res
 }
