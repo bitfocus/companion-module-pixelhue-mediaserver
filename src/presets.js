@@ -2,7 +2,7 @@ const { combineRgb } = require('@companion-module/base')
 
 const getPrograms = (num) => {
 	const playPrograms = {}
-	for (let i = 1; i <= num; i++) {
+	for(let i = 1; i <= num; i++) {
 		const programs = {
 			type: 'button',
 			category: 'Program List',
@@ -356,6 +356,55 @@ const basicPresets = {
 		},
 		feedbacks: [],
 	},
+	bind_media: {
+		type: 'button',
+		category: 'Basics',
+		name: 'Bind Media',
+		style: {
+			text: 'Bind Media',
+			size: '16',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(0, 0, 0),
+		},
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'bind_media',
+						options: {
+							layer_index: '1',
+							program_index: '1',
+						},
+					},
+				],
+			},
+		],
+		feedbacks: [],
+	},
+	bind_cue_tag: {
+		type: 'button',
+		category: 'Basics',
+		name: 'Bind CUE Tag',
+		style: {
+			text: 'Bind CUE Tag',
+			size: '16',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(0, 0, 0),
+		},
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'bind_cue_tag',
+						options: {
+							cue_tag_index: 0,
+						},
+					},
+				],
+			},
+		],
+		feedbacks: [],
+	}
 }
 
 const displayPresets = {
@@ -685,7 +734,7 @@ const addForFX3ProPresets = {
 	},
 }
 
-const getPresetDefinitions = function () {
+const getPresetDefinitions = function() {
 	return {
 		...programListPresets,
 		...programOptPresets,
@@ -694,7 +743,7 @@ const getPresetDefinitions = function () {
 	}
 }
 
-const getAllPresetDefinitions = function () {
+const getAllPresetDefinitions = function() {
 	return {
 		...getPresetDefinitions(),
 		...addForFX3ProPresets,

@@ -1,9 +1,9 @@
 const codec = require('../utils/cmdCodec.js')
-const { getPrograms } = require('../utils/getPrograms')
+const { getPrograms } = require('../utils/getPrograms.js')
 
 const VOLUME_STEP = 5
 const BRIGHTNESS_STEP = 2
-const getActions = function (instance) {
+const getActions = function(instance) {
 	let actions = {}
 
 	actions['program'] = {
@@ -38,7 +38,7 @@ const getActions = function (instance) {
 					data: programId,
 				})
 				await instance.udp.send(play_program_cmd)
-			} catch (error) {
+			} catch(error) {
 				instance.log('error', 'program cmd send error')
 			}
 		},
@@ -68,7 +68,7 @@ const getActions = function (instance) {
 					data: id,
 				})
 				await instance.udp.send(cmd)
-			} catch (error) {
+			} catch(error) {
 				instance.log('error', 'pause_program cmd send error')
 			}
 		},
@@ -78,6 +78,8 @@ const getActions = function (instance) {
 		name: 'play_program',
 		options: [],
 		callback: async (event) => {
+			instance.log('error', instance);
+
 			try {
 				const id = instance.programId
 				const cmd = codec.encodeControlProtocol({
@@ -86,7 +88,7 @@ const getActions = function (instance) {
 					data: id,
 				})
 				await instance.udp.send(cmd)
-			} catch (error) {
+			} catch(error) {
 				instance.log('error', 'play_program cmd send error')
 			}
 		},
@@ -104,7 +106,7 @@ const getActions = function (instance) {
 					data: id,
 				})
 				await instance.udp.send(cmd)
-			} catch (error) {
+			} catch(error) {
 				instance.log('error', 'stop_program cmd send error')
 			}
 		},
@@ -120,7 +122,7 @@ const getActions = function (instance) {
 					dataLen: 0,
 				})
 				await instance.udp.send(cmd)
-			} catch (error) {
+			} catch(error) {
 				instance.log('error', 'open_ftb cmd send error')
 			}
 		},
@@ -136,7 +138,7 @@ const getActions = function (instance) {
 					dataLen: 0,
 				})
 				await instance.udp.send(cmd)
-			} catch (error) {
+			} catch(error) {
 				instance.log('error', 'close_ftb cmd send error')
 			}
 		},
@@ -152,7 +154,7 @@ const getActions = function (instance) {
 					dataLen: 0,
 				})
 				await instance.udp.send(cmd)
-			} catch (error) {
+			} catch(error) {
 				instance.log('error', 'open_volume cmd send error')
 			}
 		},
@@ -168,7 +170,7 @@ const getActions = function (instance) {
 					dataLen: 0,
 				})
 				await instance.udp.send(cmd)
-			} catch (error) {
+			} catch(error) {
 				instance.log('error', 'close_volume cmd send error')
 			}
 		},
@@ -179,97 +181,97 @@ const getActions = function (instance) {
 	 * 全局音量调节
 	 */
 	/*
-  actions['set_volume'] = {
-    name: 'set_volume',
-    options: [],
-    callback: async (event) => {
-      try {
-        const id  = event.options.id
-        const cmd = codec.encodeControlProtocol({
-          tag: 264,
-          data: id
-        })
-        await instance.udp.send(cmd)
-      }catch(error){
-        instance.log('error', 'set_volume cmd send error')
-      }
-    }
-  }
-  */
+	actions['set_volume'] = {
+		name: 'set_volume',
+		options: [],
+		callback: async (event) => {
+			try {
+				const id  = event.options.id
+				const cmd = codec.encodeControlProtocol({
+					tag: 264,
+					data: id
+				})
+				await instance.udp.send(cmd)
+			}catch(error){
+				instance.log('error', 'set_volume cmd send error')
+			}
+		}
+	}
+	*/
 
 	// TODO: 第一版先不做
 	/**
 	 * 打开图层声音
 	 */
 	/*
-  actions['open_layer_volume'] = {
-    name: 'open_layer_volume',
-    options: [
-      {
-        type: 'dropdown',
-        name: 'open_layer_volume',
-        id: 'open_layer_volume',
-        default: '1',
-        choices: [
-          ...Array(256),
-        ].map((_, index) => ({
-          id: index + 1,
-          label: `打开图层${index + 1}声音`,
-        })),
-      }
-    ],
-    callback: async (event) => {
-      try {
-        const id  = event.options.layerId
-        const cmd = codec.encodeControlProtocol({
-          tag: 265,
-          dataLen: 4,
-          data: id
-        })
-        await instance.udp.send(cmd)
-      }catch(error){
-        instance.log('error', 'open_layer_volume cmd send error')
-      }
-    }
-  }
-  */
+	actions['open_layer_volume'] = {
+		name: 'open_layer_volume',
+		options: [
+			{
+				type: 'dropdown',
+				name: 'open_layer_volume',
+				id: 'open_layer_volume',
+				default: '1',
+				choices: [
+					...Array(256),
+				].map((_, index) => ({
+					id: index + 1,
+					label: `打开图层${index + 1}声音`,
+				})),
+			}
+		],
+		callback: async (event) => {
+			try {
+				const id  = event.options.layerId
+				const cmd = codec.encodeControlProtocol({
+					tag: 265,
+					dataLen: 4,
+					data: id
+				})
+				await instance.udp.send(cmd)
+			}catch(error){
+				instance.log('error', 'open_layer_volume cmd send error')
+			}
+		}
+	}
+	*/
 
 	// TODO: 第一版先不做
 	/**
 	 * 关闭图层声音
 	 */
 	/*
-  actions['close_layer_volume'] = {
-    name: 'close_layer_volume',
-    options: [
-      {
-        type: 'dropdown',
-        name: 'close_layer_volume',
-        id: 'close_layer_volume',
-        default: '1',
-        choices: [
-          ...Array(256),
-        ].map((_, index) => ({
-          id: index + 1,
-          label: `关闭图层${index + 1}声音`,
-        })),
-      }
-    ],
-    callback: async (event) => {
-      try {
-        const id  = event.options.layerId
-        const cmd = codec.encodeControlProtocol({
-          tag: 266,
-          dataLen: 4,
-          data: id
-        })
-        await instance.udp.send(cmd)
-      }catch(error){
-        instance.log('error', 'close_layer_volume cmd send error')
-      }
-    }
-  }
-  */
+	actions['close_layer_volume'] = {
+		name: 'close_layer_volume',
+		options: [
+			{
+				type: 'dropdown',
+				name: 'close_layer_volume',
+				id: 'close_layer_volume',
+				default: '1',
+				choices: [
+					...Array(256),
+				].map((_, index) => ({
+					id: index + 1,
+					label: `关闭图层${index + 1}声音`,
+				})),
+			}
+		],
+		callback: async (event) => {
+			try {
+				const id  = event.options.layerId
+				const cmd = codec.encodeControlProtocol({
+					tag: 266,
+					dataLen: 4,
+					data: id
+				})
+				await instance.udp.send(cmd)
+			}catch(error){
+				instance.log('error', 'close_layer_volume cmd send error')
+			}
+		}
+	}
+	*/
 
 	// PPT上一页
 	actions['ppt_pgup'] = {
@@ -284,7 +286,7 @@ const getActions = function (instance) {
 					data: triggerID,
 				})
 				await instance.udp.send(cmd)
-			} catch (error) {
+			} catch(error) {
 				instance.log('error', 'ppt_pgup cmd send error')
 			}
 		},
@@ -303,7 +305,7 @@ const getActions = function (instance) {
 					data: triggerID,
 				})
 				await instance.udp.send(cmd)
-			} catch (error) {
+			} catch(error) {
 				instance.log('error', 'ppt_pgdn cmd send error')
 			}
 		},
@@ -314,37 +316,37 @@ const getActions = function (instance) {
 	 * 刷新图层网页
 	 */
 	/*
-  actions['refresh'] = {
-    name: 'refresh',
-    options: [
-      {
-        type: 'dropdown',
-        name: 'refresh',
-        id: 'refresh',
-        default: '1',
-        choices: [
-          ...Array(256),
-        ].map((_, index) => ({
-          id: index + 1,
-          label: `刷新图层${index + 1}网页`,
-        })),
-      }
-    ],
-    callback: async (event) => {
-      try {
-        const id  = event.options.layerId
-        const cmd = codec.encodeControlProtocol({
-          tag: 327,
-          dataLen: 4,
-          data: id
-        })
-        await instance.udp.send(cmd)
-      }catch(error){
-        instance.log('error', 'refresh cmd send error')
-      }
-    }
-  }
-  */
+	actions['refresh'] = {
+		name: 'refresh',
+		options: [
+			{
+				type: 'dropdown',
+				name: 'refresh',
+				id: 'refresh',
+				default: '1',
+				choices: [
+					...Array(256),
+				].map((_, index) => ({
+					id: index + 1,
+					label: `刷新图层${index + 1}网页`,
+				})),
+			}
+		],
+		callback: async (event) => {
+			try {
+				const id  = event.options.layerId
+				const cmd = codec.encodeControlProtocol({
+					tag: 327,
+					dataLen: 4,
+					data: id
+				})
+				await instance.udp.send(cmd)
+			}catch(error){
+				instance.log('error', 'refresh cmd send error')
+			}
+		}
+	}
+	*/
 
 	actions['volume_up'] = {
 		name: 'volume_up',
@@ -359,7 +361,7 @@ const getActions = function (instance) {
 				instance.log('info', `volume_up cmd send: ${cmd}`)
 
 				await instance.udp.send(cmd)
-			} catch (error) {
+			} catch(error) {
 				instance.log('error', 'volume_up cmd send error')
 			}
 		},
@@ -377,13 +379,13 @@ const getActions = function (instance) {
 				instance.log('info', `volume_down cmd send: ${cmd}`)
 
 				await instance.udp.send(cmd)
-			} catch (error) {
+			} catch(error) {
 				instance.log('error', 'volume_down cmd send error')
 			}
 		},
 	}
 
-  actions['brightness_up'] = {
+	actions['brightness_up'] = {
 		name: 'brightness_up',
 		options: [],
 		callback: async (event) => {
@@ -391,13 +393,13 @@ const getActions = function (instance) {
 				const cmd = codec.encodeControlProtocol({
 					tag: 391,
 					dataLen: 2,
-          dataType: 'hex',
+					dataType: 'hex',
 					data: [0x01, BRIGHTNESS_STEP], // 亮度增加：步进5
 				})
 				instance.log('info', `brightness_up cmd send: ${cmd}`)
 
 				await instance.udp.send(cmd)
-			} catch (error) {
+			} catch(error) {
 				instance.log('error', 'brightness_up cmd send error')
 			}
 		},
@@ -411,13 +413,13 @@ const getActions = function (instance) {
 				const cmd = codec.encodeControlProtocol({
 					tag: 391,
 					dataLen: 2,
-          dataType: 'hex',
+					dataType: 'hex',
 					data: [0x00, BRIGHTNESS_STEP], // 亮度减少：步进5
 				})
 				instance.log('info', `brightness_down cmd send: ${cmd}`)
 
 				await instance.udp.send(cmd)
-			} catch (error) {
+			} catch(error) {
 				instance.log('error', 'brightness_down cmd send error')
 			}
 		},
@@ -434,13 +436,13 @@ const getActions = function (instance) {
 					data: 0,
 				})
 				await instance.udp.send(cmd)
-			} catch (error) {
+			} catch(error) {
 				instance.log('error', 'play cmd send error')
 			}
 		},
 	}
 
-  actions['pause'] = {
+	actions['pause'] = {
 		name: 'pause',
 		options: [],
 		callback: async (event) => {
@@ -451,7 +453,7 @@ const getActions = function (instance) {
 					data: 1,
 				})
 				await instance.udp.send(cmd)
-			} catch (error) {
+			} catch(error) {
 				instance.log('error', 'pause cmd send error')
 			}
 		},
@@ -468,16 +470,15 @@ const getActions = function (instance) {
 					data: 2,
 				})
 				await instance.udp.send(cmd)
-			} catch (error) {
+			} catch(error) {
 				instance.log('error', 'stop cmd send error')
 			}
 		},
 	}
-
 	return actions
 }
 
-const getAllActions = function (instance) {
+const getAllActions = function(instance) {
 	let actions = getActions(instance)
 	/**
 	 目前先不做
@@ -513,7 +514,7 @@ const getAllActions = function (instance) {
 				instance.log('info', `open_test_program cmd send: ${cmd}`)
 
 				await instance.udp.send(cmd)
-			} catch (error) {
+			} catch(error) {
 				instance.log('error', 'open_test_program cmd send error')
 			}
 		},
@@ -532,7 +533,7 @@ const getAllActions = function (instance) {
 				instance.log('info', `close_test_program cmd send: ${cmd}`)
 
 				await instance.udp.send(cmd)
-			} catch (error) {
+			} catch(error) {
 				instance.log('error', 'close_test_program cmd send error')
 			}
 		},
@@ -554,7 +555,7 @@ const getAllActions = function (instance) {
 				instance.log('info', `previous_program cmd send: ${cmd}`)
 
 				await instance.udp.send(cmd)
-			} catch (error) {
+			} catch(error) {
 				instance.log('error', 'previous_program cmd send error')
 			}
 		},
@@ -576,10 +577,96 @@ const getAllActions = function (instance) {
 				instance.log('info', `next_program cmd send: ${cmd}`)
 
 				await instance.udp.send(cmd)
-			} catch (error) {
+			} catch(error) {
 				instance.log('error', 'next_program cmd send error')
 			}
 		},
+	}
+
+	actions['bind_media'] = {
+		name: 'bind_media',
+		options: [{
+			id: 'layer_index',
+			label: 'Select Layer',
+			type: 'dropdown',
+			minChoicesForSearch: 1,
+			default: '1',
+			choices: new Array(50).fill(0).map((item, index) => {
+				return {
+					id: `${index + 1}`,
+					label: `Layer ${index + 1}`
+				};
+			}),
+		},
+		{
+			id: 'program_index',
+			label: 'Select Program',
+			type: 'dropdown',
+			minChoicesForSearch: 1,
+			default: '1',
+			choices: new Array(256).fill(0).map((item, index) => {
+				return {
+					id: `${index + 1}`,
+					label: `Program ${index + 1}`
+				};
+			}),
+		}],
+		callback: async (event) => {
+			try {
+				const { program_index = '1', layer_index = '1' } = event.options;
+
+				const real_layer_index = Number(`${layer_index}`) - 1;
+				const real_program_index = Number(`${program_index}`) - 1;
+
+				// 将每个索引值转换为2字节（小端序），然后合并
+				// 例如：1 -> [1, 0], 2 -> [2, 0]
+				const programBytes = [
+					real_program_index & 0xFF,        // 低字节
+					(real_program_index >> 8) & 0xFF  // 高字节
+				];
+				const layerBytes = [
+					real_layer_index & 0xFF,          // 低字节
+					(real_layer_index >> 8) & 0xFF    // 高字节
+				];
+
+				const cmd = codec.encodeControlProtocol({
+					tag: 10004,
+					dataLen: 4,
+					dataType: 'hex',
+					data: [...programBytes, ...layerBytes],
+				})
+				await instance.udp.send(cmd)
+			} catch(error) {
+				instance.log('error', 'bind_media cmd send error')
+			}
+		}
+	}
+
+	actions['bind_cue_tag'] = {
+		name: 'bind_cue_tag',
+		options: [
+			{
+				id: 'cue_tag_index',
+				label: 'Cue Index',
+				type: 'number',
+				default: 0,
+				min: 0,
+				max: 99999
+			}
+		],
+		callback: async (event) => {
+			try {
+				const { cue_tag_index = 0 } = event.options;
+				const cmd = codec.encodeControlProtocol({
+					tag: 10005,
+					dataLen: 2,
+					data: [cue_tag_index],
+				})
+				await instance.udp.send(cmd)
+			} catch(error) {
+				instance.log('error', 'bind_cue_tag cmd send error')
+			}
+		}
 	}
 
 	return actions
