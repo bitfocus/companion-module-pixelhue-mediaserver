@@ -36,12 +36,12 @@ class ModuleInstance extends InstanceBase {
 	}
 
 	initUDP() {
-		if(this.udp) {
+		if (this.udp) {
 			this.udp.destroy()
 			delete this.udp
 		}
 
-		if(this.config.host) {
+		if (this.config.host) {
 			this.udp = new UDPHelper(this.config.host, this.config.port ?? 18960, {
 				bind_ip: '0.0.0.0',
 				bind_port: 18961,
@@ -64,16 +64,12 @@ class ModuleInstance extends InstanceBase {
 
 				const res = decodeControlProtocol(msg)
 
-				if(res.tag !== 129) {
-					console.log(`响应tag: ${res.tag}`)
-					this.log('debug', `响应tag: ${res.tag}`)
+				if (res.tag !== 129) {
+					this.log('debug', `response tag: ${res.tag}`)
 					return
 				}
 
 				const result = decodePrograms(res.data)
-
-				console.log('~~~~~~~~~~~~~res', JSON.stringify(result))
-				// this.status(this.STATE_WARNING, 'Connecting...')
 			})
 
 			this.udp.on('status_change', (status, message) => {
@@ -90,7 +86,7 @@ class ModuleInstance extends InstanceBase {
 	async init(config) {
 		this.config = config
 
-		if(this.config.modelID !== undefined) {
+		if (this.config.modelID !== undefined) {
 			this.model = this.PRODUCTS_INFO[this.config.modelID]
 		} else {
 			this.config.modelID = this.PRODUCTS[0]
@@ -111,10 +107,10 @@ class ModuleInstance extends InstanceBase {
 
 	// When module gets deleted
 	async destroy() {
-		if(this.socket !== undefined) {
+		if (this.socket !== undefined) {
 			this.socket.destroy()
 		}
-		if(this.udp !== undefined) {
+		if (this.udp !== undefined) {
 			this.udp.destroy()
 		}
 		this.log('debug', 'destroy')
@@ -160,7 +156,7 @@ class ModuleInstance extends InstanceBase {
 	async configUpdated(config) {
 		let resetConnection = false
 
-		if(this.config.host != config.host) {
+		if (this.config.host != config.host) {
 			resetConnection = true
 		}
 
@@ -173,7 +169,7 @@ class ModuleInstance extends InstanceBase {
 		this.model = this.PRODUCTS[config.modelID]
 		this.updatePresets()
 		this.updateActions()
-		if(resetConnection === true || this.socket === undefined) {
+		if (resetConnection === true || this.socket === undefined) {
 			this.updateStatus(InstanceStatus.Connecting)
 			this.initUDP()
 		}

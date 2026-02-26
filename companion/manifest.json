@@ -3,7 +3,7 @@
 	"name": "Pixelhue-mediaserver",
 	"shortname": "Pixelhue-mediaserver",
 	"description": "Companion module for the Pixelhue Media-Server Products",
-	"version": "1.3.0",
+	"version": "1.4.2",
 	"license": "MIT",
 	"repository": "git+https://github.com/bitfocus/companion-module-pixelhue-mediaserver",
 	"bugs": "git+https://github.com/bitfocus/companion-module-pixelhue-mediaserver/issues",

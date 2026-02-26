@@ -1,6 +1,6 @@
 {
   "name": "pixelhue-mediaserver",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "main": "./src/main.js",
   "scripts": {
     "format": "prettier -w ."
@@ -11,10 +11,7 @@
     "url": "git+https://github.com/bitfocus/companion-module-pixelhue-mediaserver.git"
   },
   "dependencies": {
-    "@companion-module/base": "~1.5.1",
-    "axios": "^1.5.0",
-    "got": "^13.0.0",
-    "ping": "^0.4.4"
+    "@companion-module/base": "~1.5.1"
   },
   "devDependencies": {
     "@companion-module/tools": "^1.4.1"

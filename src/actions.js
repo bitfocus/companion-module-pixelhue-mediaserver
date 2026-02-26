@@ -26,14 +26,15 @@ const getActions = function(instance) {
 				const programId = event.options.program - 1
 				instance.programId = programId
 
-				const select_program_cmd = codec.encodeControlProtocol({
-					tag: 130,
-					dataLen: 4,
-					data: programId,
-				})
-				await instance.udp.send(select_program_cmd)
+        /** 此处变更协为366，处理为下发节目坑位id */
+				// const select_program_cmd = codec.encodeControlProtocol({
+				// 	tag: 130,
+				// 	dataLen: 4,
+				// 	data: programId,
+				// })
+				// await instance.udp.send(select_program_cmd)
 				const play_program_cmd = codec.encodeControlProtocol({
-					tag: 271,
+					tag: 366,
 					dataLen: 4,
 					data: programId,
 				})
