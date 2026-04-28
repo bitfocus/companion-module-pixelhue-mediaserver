@@ -79,8 +79,6 @@ const getActions = function(instance) {
 		name: 'play_program',
 		options: [],
 		callback: async (event) => {
-			instance.log('error', instance);
-
 			try {
 				const id = instance.programId
 				const cmd = codec.encodeControlProtocol({
