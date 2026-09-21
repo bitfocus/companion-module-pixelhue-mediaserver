@@ -1,0 +1,175 @@
+﻿Diagnose log at 2026-09-21T09:03:28Z
+
+AppPath: C:\Users\Nova005721\AppData\Local\Programs\Git\mingw64\bin\git-credential-manager.exe
+InstallDir: C:\Users\Nova005721\AppData\Local\Programs\Git\mingw64\bin\
+Version: 2.9.1+6760f0ef069c994aa2bb1d703fb374986ee82a3e
+
+------------
+Diagnostic: Environment
+Skipped: False
+Success: True
+Exception: None
+Log:
+OSType: Windows
+OSVersion: 10.0 (build 19044)
+Reading environment variables... OK
+ Variables:
+SystemDrive=C:
+ProgramFiles(x86)=C:\Program Files (x86)
+USERDNSDOMAIN=NOVASTAR.COM
+ProgramW6432=C:\Program Files
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 85 Stepping 7, GenuineIntel
+TMP=C:\Users\NOVA00~1\AppData\Local\Temp
+PROCESSOR_ARCHITECTURE=AMD64
+DriverData=C:\Windows\System32\Drivers\DriverData
+Path=C:/Users/Nova005721/AppData/Local/Programs/Git/mingw64/libexec/git-core;C:\Users\Nova005721\AppData\Local\Programs\Git\mingw64\bin;C:\Users\Nova005721\AppData\Local\Programs\Git\usr\bin;C:\Users\Nova005721\bin;C:\Program Files\YunShu\utils;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Users\Nova005721\AppData\Local\Microsoft\WindowsApps;C:\Users\Nova005721\AppData\Local\Programs\Git\cmd;C:\Users\Nova005721\AppData\Local\Programs\Microsoft VS Code\bin
+PROCESSOR_REVISION=5507
+TEMP=C:\Users\NOVA00~1\AppData\Local\Temp
+USERPROFILE=C:\Users\Nova005721
+LOGONSERVER=\\DC1
+TERM=xterm-256color
+USERNAME=Nova005721
+SystemRoot=C:\Windows
+GIT_EXEC_PATH=C:/Users/Nova005721/AppData/Local/Programs/Git/mingw64/libexec/git-core
+PLINK_PROTOCOL=ssh
+MSYSTEM=MINGW64
+CommonProgramFiles=C:\Program Files\Common Files
+ProgramData=C:\ProgramData
+LC_CTYPE=C.UTF-8
+HOMEPATH=\Users\Nova005721
+COMPUTERNAME=WORK-OFFICE-029
+ALLUSERSPROFILE=C:\ProgramData
+CommonProgramW6432=C:\Program Files\Common Files
+SESSIONNAME=Console
+CommonProgramFiles(x86)=C:\Program Files (x86)\Common Files
+HOMEDRIVE=C:
+windir=C:\Windows
+GIT_TRACE2_PARENT_SID=25749e58-dabc-48c4-b2c5-ffe1c4449520
+NUMBER_OF_PROCESSORS=6
+OS=Windows_NT
+ProgramFiles=C:\Program Files
+ComSpec=C:\Windows\system32\cmd.exe
+PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.CPL
+HOME=C:\Users\Nova005721
+PSModulePath=C:\Users\Nova005721\Documents\WindowsPowerShell\Modules;C:\Program Files\WindowsPowerShell\Modules;C:\Windows\system32\WindowsPowerShell\v1.0\Modules
+TMPDIR=C:\Users\NOVA00~1\AppData\Local\Temp
+APPDATA=C:\Users\Nova005721\AppData\Roaming
+USERDOMAIN=NOVA
+PROCESSOR_LEVEL=6
+LOCALAPPDATA=C:\Users\Nova005721\AppData\Local
+USERDOMAIN_ROAMINGPROFILE=NOVA
+COLORTERM=truecolor
+PUBLIC=C:\Users\Public
+
+
+------------
+Diagnostic: File system
+Skipped: False
+Success: True
+Exception: None
+Log:
+Temporary directory is 'C:\Users\Nova005721\AppData\Local\Temp\'...
+Checking basic file I/O...
+Writing to temporary file 'C:\Users\Nova005721\AppData\Local\Temp\a9644b7c8d75b0c332120831'... OK
+Reading from temporary file 'C:\Users\Nova005721\AppData\Local\Temp\a9644b7c8d75b0c332120831'... OK
+Deleting temporary file 'C:\Users\Nova005721\AppData\Local\Temp\a9644b7c8d75b0c332120831'... OK
+Testing IFileSystem instance...
+UserHomePath: C:\Users\Nova005721
+UserDataDirectoryPath: C:\Users\Nova005721\.gcm
+GetCurrentDirectory(): C:\Users\Nova005721\Desktop\companion\companion-module-pixelhue-mediaserver
+
+------------
+Diagnostic: Networking
+Skipped: False
+Success: True
+Exception: None
+Log:
+Checking networking and HTTP stack...
+Creating HTTP client... OK
+IsNetworkAvailable: True
+Sending HEAD request to http://example.com... OK
+Sending HEAD request to https://example.com... OK
+Acquiring free TCP port... OK
+Testing local HTTP loopback connections...
+Creating new HTTP listener for http://localhost:59063/... OK
+Waiting for loopback connection... OK
+Writing response... OK
+Waiting for response data... OK
+Loopback connection data OK
+
+------------
+Diagnostic: Git
+Skipped: False
+Success: True
+Exception: None
+Log:
+Getting Git version... OK
+Git version is '2.55.0.windows.5'
+Locating current repository...Git repository at 'C:/Users/Nova005721/Desktop/companion/companion-module-pixelhue-mediaserver/.git'
+ OK
+Listing all Git configuration... OK
+Git configuration:
+file:C:/Users/Nova005721/AppData/Local/Programs/Git/etc/gitconfig	diff.astextplain.textconv=astextplain
+file:C:/Users/Nova005721/AppData/Local/Programs/Git/etc/gitconfig	filter.lfs.clean=git-lfs clean -- %f
+file:C:/Users/Nova005721/AppData/Local/Programs/Git/etc/gitconfig	filter.lfs.smudge=git-lfs smudge -- %f
+file:C:/Users/Nova005721/AppData/Local/Programs/Git/etc/gitconfig	filter.lfs.process=git-lfs filter-process
+file:C:/Users/Nova005721/AppData/Local/Programs/Git/etc/gitconfig	filter.lfs.required=true
+file:C:/Users/Nova005721/AppData/Local/Programs/Git/etc/gitconfig	http.sslbackend=schannel
+file:C:/Users/Nova005721/AppData/Local/Programs/Git/etc/gitconfig	core.autocrlf=true
+file:C:/Users/Nova005721/AppData/Local/Programs/Git/etc/gitconfig	core.fscache=true
+file:C:/Users/Nova005721/AppData/Local/Programs/Git/etc/gitconfig	core.symlinks=false
+file:C:/Users/Nova005721/AppData/Local/Programs/Git/etc/gitconfig	pull.rebase=false
+file:C:/Users/Nova005721/AppData/Local/Programs/Git/etc/gitconfig	credential.helper=manager
+file:C:/Users/Nova005721/AppData/Local/Programs/Git/etc/gitconfig	credential.https://dev.azure.com.usehttppath=true
+file:C:/Users/Nova005721/AppData/Local/Programs/Git/etc/gitconfig	init.defaultbranch=master
+file:C:/Users/Nova005721/.gitconfig	credential.usehttppath=true
+file:C:/Users/Nova005721/.gitconfig	credential.helper=manager
+file:.git/config	core.repositoryformatversion=0
+file:.git/config	core.filemode=false
+file:.git/config	core.bare=false
+file:.git/config	core.logallrefupdates=true
+file:.git/config	core.symlinks=false
+file:.git/config	core.ignorecase=true
+file:.git/config	remote.origin.url=https://github.com/bitfocus/companion-module-pixelhue-mediaserver.git
+file:.git/config	remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+file:.git/config	branch.main.remote=origin
+file:.git/config	branch.main.merge=refs/heads/main
+file:.git/config	branch.main.vscode-merge-base=origin/main
+file:.git/config	user.name=PIXELHUE-Service
+file:.git/config	user.email=pixelhue-service@novastar.tech
+
+
+------------
+Diagnostic: Credential storage
+Skipped: False
+Success: True
+Exception: None
+Log:
+ICredentialStore instance is of type: CredentialStore
+Writing test credential... OK
+Reading test credential... OK
+Deleting test credential... OK
+
+------------
+Diagnostic: Microsoft authentication (AAD/MSA)
+Skipped: False
+Success: True
+Exception: None
+Log:
+Broker is not enabled.
+Gathering MSAL token cache data... OK
+CacheDirectory: C:\Users\Nova005721\AppData\Local\.IdentityService
+CacheFileName: msal.cache
+CacheFilePath: C:\Users\Nova005721\AppData\Local\.IdentityService\msal.cache
+Creating cache helper... OK
+Verifying MSAL token cache persistence... OK
+
+------------
+Diagnostic: GitHub API
+Skipped: False
+Success: True
+Exception: None
+Log:
+Using 'https://github.com/' as API target.
+Querying '/meta' endpoint... OK
+
