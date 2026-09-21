@@ -2,13 +2,13 @@ const { combineRgb } = require('@companion-module/base')
 
 const getPrograms = (num) => {
 	const playPrograms = {}
-	for(let i = 1; i <= num; i++) {
+	for (let i = 0; i < num; i++) {
 		const programs = {
 			type: 'button',
 			category: 'Program List',
-			name: 'Program ' + i,
+			name: 'ProgramId ' + i,
 			style: {
-				text: 'Program\\n' + i,
+				text: 'ProgramId\\n' + i,
 				size: '14',
 				color: combineRgb(0, 0, 0),
 				bgcolor: combineRgb(0, 255, 0),
@@ -372,14 +372,19 @@ const basicPresets = {
 					{
 						actionId: 'bind_media',
 						options: {
-							layer_index: '1',
-							program_index: '1',
+							layer_index: '0',
+							program_index: '0',
 						},
 					},
 				],
 			},
 		],
-		feedbacks: [],
+		feedbacks: [
+			{
+				feedbackId: 'bind_media',
+				options: {},
+			},
+		],
 	},
 	bind_cue_tag: {
 		type: 'button',
@@ -404,7 +409,7 @@ const basicPresets = {
 			},
 		],
 		feedbacks: [],
-	}
+	},
 }
 
 const displayPresets = {
@@ -732,9 +737,161 @@ const addForFX3ProPresets = {
 		],
 		feedbacks: [],
 	},
+	/** 计分器加分 */
+	score_up: {
+		type: 'button',
+		category: 'Basics',
+		name: 'Score +',
+		style: {
+			text: 'Score +',
+			size: '16',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(0, 0, 0),
+		},
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'score_up',
+						options: {
+							step: 1,
+						},
+					},
+				],
+			},
+		],
+		feedbacks: [],
+	},
+	/** 计分器减分 */
+	score_down: {
+		type: 'button',
+		category: 'Basics',
+		name: 'Score -',
+		style: {
+			text: 'Score -',
+			size: '16',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(0, 0, 0),
+		},
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'score_down',
+						options: {
+							step: 1,
+						},
+					},
+				],
+			},
+		],
+		feedbacks: [],
+	},
+	/** 计分器重置 */
+	score_reset: {
+		type: 'button',
+		category: 'Basics',
+		name: 'Score Reset',
+		style: {
+			text: 'Score Reset',
+			size: '16',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(0, 0, 0),
+		},
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'score_reset',
+						options: {},
+					},
+				],
+			},
+		],
+		feedbacks: [],
+	},
+	/** 计分器撤销 */
+	score_undo: {
+		type: 'button',
+		category: 'Basics',
+		name: 'Score Undo',
+		style: {
+			text: 'Score Undo',
+			size: '16',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(0, 0, 0),
+		},
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'score_undo',
+						options: {},
+					},
+				],
+			},
+		],
+		feedbacks: [],
+	},
+	/** 计分器设分 */
+	score_set: {
+		type: 'button',
+		category: 'Basics',
+		name: 'Score Set',
+		style: {
+			text: 'Score Set',
+			size: '16',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(0, 0, 0),
+		},
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'score_set',
+						options: {
+							score: 0,
+						},
+					},
+				],
+			},
+		],
+		feedbacks: [],
+	},
+	/** 选中指定媒体 */
+	select_media: {
+		type: 'button',
+		category: 'Basics',
+		name: 'Select Media',
+		style: {
+			text: 'Select Media',
+			size: '16',
+			color: combineRgb(255, 255, 255),
+			bgcolor: combineRgb(0, 0, 0),
+		},
+		steps: [
+			{
+				down: [
+					{
+						actionId: 'select_media',
+						options: {
+							program_index: '0',
+							layer_index: '0',
+						},
+					},
+				],
+			},
+		],
+		feedbacks: [
+			{
+				feedbackId: 'selected_media',
+				options: {},
+			},
+		],
+	},
 }
 
-const getPresetDefinitions = function() {
+const getPresetDefinitions = function () {
 	return {
 		...programListPresets,
 		...programOptPresets,
@@ -743,7 +900,7 @@ const getPresetDefinitions = function() {
 	}
 }
 
-const getAllPresetDefinitions = function() {
+const getAllPresetDefinitions = function () {
 	return {
 		...getPresetDefinitions(),
 		...addForFX3ProPresets,

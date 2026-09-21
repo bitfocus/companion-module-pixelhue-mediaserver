@@ -1,6 +1,7 @@
 const { InstanceBase, Regex, UDPHelper, runEntrypoint, InstanceStatus } = require('@companion-module/base')
 
 const actions = require('./actions.js')
+const feedbacks = require('./feedbacks.js')
 const UpgradeScripts = require('./upgrades.js')
 const presets = require('./presets.js')
 
@@ -19,11 +20,19 @@ class ModuleInstance extends InstanceBase {
 		this.PRODUCTS_INFO = PRODUCTS_INFO
 		this.log('debug', `PRODUCTS_INFO ${this.PRODUCTS_INFO}`)
 		this.PRODUCTS = Object.values(this.PRODUCTS_INFO)
+		this.selectMediaByControl = {}
+		this.bindMediaByControl = {}
 	}
 
 	updateActions() {
 		this.setActionDefinitions(
 			ADD_ACTIONS_DEVICES.includes(this.config.modelId) ? actions.getAllActions(this) : actions.getActions(this)
+		)
+	}
+
+	updateFeedbacks() {
+		this.setFeedbackDefinitions(
+			ADD_ACTIONS_DEVICES.includes(this.config.modelId) ? feedbacks.getFeedbacks(this) : {}
 		)
 	}
 
@@ -46,6 +55,22 @@ class ModuleInstance extends InstanceBase {
 				bind_ip: '0.0.0.0',
 				bind_port: 18961,
 			})
+
+			const originalSend = this.udp.send.bind(this.udp)
+			this.udp.send = (msg, ...rest) => {
+				try {
+					const { tag, data } = decodeControlProtocol(msg)
+					const cmdHex = Buffer.from(msg)
+						.toString('hex')
+						.toUpperCase()
+						.replace(/(.{2})/g, '$1 ')
+						.trim()
+					this.log('info', `send tag: ${tag}, dataLen: ${data.byteLength}, cmd: ${cmdHex}`)
+				} catch (error) {
+					this.log('info', `send tag parse failed: ${error.message}`)
+				}
+				return originalSend(msg, ...rest)
+			}
 
 			this.udp.on('error', (err) => {
 				this.log('error', 'Network error: ' + err.message)
@@ -102,6 +127,7 @@ class ModuleInstance extends InstanceBase {
 		this.initUDP()
 
 		this.updateActions()
+		this.updateFeedbacks()
 		this.updatePresets()
 	}
 
@@ -162,13 +188,16 @@ class ModuleInstance extends InstanceBase {
 
 		this.log('info', 'configUpdated module....')
 
+		this.selectMediaByControl = this.selectMediaByControl || {}
+		this.bindMediaByControl = this.bindMediaByControl || {}
 		this.config = {
 			...this.config,
 			...config,
 		}
 		this.model = this.PRODUCTS[config.modelID]
-		this.updatePresets()
 		this.updateActions()
+		this.updateFeedbacks()
+		this.updatePresets()
 		if (resetConnection === true || this.socket === undefined) {
 			this.updateStatus(InstanceStatus.Connecting)
 			this.initUDP()

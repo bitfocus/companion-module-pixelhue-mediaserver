@@ -1,4 +1,3 @@
-
 const PRODUCTS_INFO = {
 	ms3pro: { id: 'ms3pro', label: 'Pilot MS3 Pro' },
 	ms3: { id: 'ms3', label: 'Pilot MS3' },

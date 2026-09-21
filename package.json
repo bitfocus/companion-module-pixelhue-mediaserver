@@ -1,9 +1,10 @@
 {
   "name": "pixelhue-mediaserver",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "main": "./src/main.js",
   "scripts": {
-    "format": "prettier -w ."
+    "format": "prettier -w .",
+    "package": "companion-module-build"
   },
   "license": "MIT",
   "repository": {
@@ -14,7 +15,8 @@
     "@companion-module/base": "~1.5.1"
   },
   "devDependencies": {
-    "@companion-module/tools": "^2.8.0"
+    "@companion-module/tools": "2.2.3",
+    "prettier": "^3.4.2"
   },
   "prettier": "@companion-module/tools/.prettierrc.json"
 }

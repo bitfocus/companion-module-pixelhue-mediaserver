@@ -1,9 +1,12 @@
 const codec = require('../utils/cmdCodec.js')
-const { getPrograms } = require('../utils/getPrograms.js')
 
 const VOLUME_STEP = 5
 const BRIGHTNESS_STEP = 2
-const getActions = function(instance) {
+const PROGRAM_CHOICES = [...Array(256)].map((_, index) => ({
+	id: index,
+	label: `ProgramId ${index}`,
+}))
+const getActions = function (instance) {
 	let actions = {}
 
 	actions['program'] = {
@@ -13,20 +16,16 @@ const getActions = function(instance) {
 				type: 'dropdown',
 				name: 'Program',
 				id: 'program',
-				default: '1',
-				choices: [...Array(256)].map((_, index) => ({
-					id: index + 1, // 需要对应节目id，从instance中获取
-					label: `Program ${index + 1}`,
-				})),
+				default: 0,
+				choices: PROGRAM_CHOICES,
 			},
 		],
 		callback: async (event) => {
 			try {
-				// 节目对应的id
-				const programId = event.options.program - 1
+				const programId = Number(event.options.program)
 				instance.programId = programId
 
-        /** 此处变更协为366，处理为下发节目坑位id */
+				/** 此处变更协为366，处理为下发节目坑位id */
 				// const select_program_cmd = codec.encodeControlProtocol({
 				// 	tag: 130,
 				// 	dataLen: 4,
@@ -39,7 +38,7 @@ const getActions = function(instance) {
 					data: programId,
 				})
 				await instance.udp.send(play_program_cmd)
-			} catch(error) {
+			} catch (error) {
 				instance.log('error', 'program cmd send error')
 			}
 		},
@@ -69,7 +68,7 @@ const getActions = function(instance) {
 					data: id,
 				})
 				await instance.udp.send(cmd)
-			} catch(error) {
+			} catch (error) {
 				instance.log('error', 'pause_program cmd send error')
 			}
 		},
@@ -87,7 +86,7 @@ const getActions = function(instance) {
 					data: id,
 				})
 				await instance.udp.send(cmd)
-			} catch(error) {
+			} catch (error) {
 				instance.log('error', 'play_program cmd send error')
 			}
 		},
@@ -105,7 +104,7 @@ const getActions = function(instance) {
 					data: id,
 				})
 				await instance.udp.send(cmd)
-			} catch(error) {
+			} catch (error) {
 				instance.log('error', 'stop_program cmd send error')
 			}
 		},
@@ -121,7 +120,7 @@ const getActions = function(instance) {
 					dataLen: 0,
 				})
 				await instance.udp.send(cmd)
-			} catch(error) {
+			} catch (error) {
 				instance.log('error', 'open_ftb cmd send error')
 			}
 		},
@@ -137,7 +136,7 @@ const getActions = function(instance) {
 					dataLen: 0,
 				})
 				await instance.udp.send(cmd)
-			} catch(error) {
+			} catch (error) {
 				instance.log('error', 'close_ftb cmd send error')
 			}
 		},
@@ -153,7 +152,7 @@ const getActions = function(instance) {
 					dataLen: 0,
 				})
 				await instance.udp.send(cmd)
-			} catch(error) {
+			} catch (error) {
 				instance.log('error', 'open_volume cmd send error')
 			}
 		},
@@ -169,7 +168,7 @@ const getActions = function(instance) {
 					dataLen: 0,
 				})
 				await instance.udp.send(cmd)
-			} catch(error) {
+			} catch (error) {
 				instance.log('error', 'close_volume cmd send error')
 			}
 		},
@@ -285,7 +284,7 @@ const getActions = function(instance) {
 					data: triggerID,
 				})
 				await instance.udp.send(cmd)
-			} catch(error) {
+			} catch (error) {
 				instance.log('error', 'ppt_pgup cmd send error')
 			}
 		},
@@ -304,7 +303,7 @@ const getActions = function(instance) {
 					data: triggerID,
 				})
 				await instance.udp.send(cmd)
-			} catch(error) {
+			} catch (error) {
 				instance.log('error', 'ppt_pgdn cmd send error')
 			}
 		},
@@ -360,7 +359,7 @@ const getActions = function(instance) {
 				instance.log('info', `volume_up cmd send: ${cmd}`)
 
 				await instance.udp.send(cmd)
-			} catch(error) {
+			} catch (error) {
 				instance.log('error', 'volume_up cmd send error')
 			}
 		},
@@ -378,7 +377,7 @@ const getActions = function(instance) {
 				instance.log('info', `volume_down cmd send: ${cmd}`)
 
 				await instance.udp.send(cmd)
-			} catch(error) {
+			} catch (error) {
 				instance.log('error', 'volume_down cmd send error')
 			}
 		},
@@ -398,7 +397,7 @@ const getActions = function(instance) {
 				instance.log('info', `brightness_up cmd send: ${cmd}`)
 
 				await instance.udp.send(cmd)
-			} catch(error) {
+			} catch (error) {
 				instance.log('error', 'brightness_up cmd send error')
 			}
 		},
@@ -418,7 +417,7 @@ const getActions = function(instance) {
 				instance.log('info', `brightness_down cmd send: ${cmd}`)
 
 				await instance.udp.send(cmd)
-			} catch(error) {
+			} catch (error) {
 				instance.log('error', 'brightness_down cmd send error')
 			}
 		},
@@ -435,7 +434,7 @@ const getActions = function(instance) {
 					data: 0,
 				})
 				await instance.udp.send(cmd)
-			} catch(error) {
+			} catch (error) {
 				instance.log('error', 'play cmd send error')
 			}
 		},
@@ -452,7 +451,7 @@ const getActions = function(instance) {
 					data: 1,
 				})
 				await instance.udp.send(cmd)
-			} catch(error) {
+			} catch (error) {
 				instance.log('error', 'pause cmd send error')
 			}
 		},
@@ -469,7 +468,7 @@ const getActions = function(instance) {
 					data: 2,
 				})
 				await instance.udp.send(cmd)
-			} catch(error) {
+			} catch (error) {
 				instance.log('error', 'stop cmd send error')
 			}
 		},
@@ -477,7 +476,7 @@ const getActions = function(instance) {
 	return actions
 }
 
-const getAllActions = function(instance) {
+const getAllActions = function (instance) {
 	let actions = getActions(instance)
 	/**
 	 目前先不做
@@ -513,7 +512,7 @@ const getAllActions = function(instance) {
 				instance.log('info', `open_test_program cmd send: ${cmd}`)
 
 				await instance.udp.send(cmd)
-			} catch(error) {
+			} catch (error) {
 				instance.log('error', 'open_test_program cmd send error')
 			}
 		},
@@ -532,7 +531,7 @@ const getAllActions = function(instance) {
 				instance.log('info', `close_test_program cmd send: ${cmd}`)
 
 				await instance.udp.send(cmd)
-			} catch(error) {
+			} catch (error) {
 				instance.log('error', 'close_test_program cmd send error')
 			}
 		},
@@ -554,7 +553,7 @@ const getAllActions = function(instance) {
 				instance.log('info', `previous_program cmd send: ${cmd}`)
 
 				await instance.udp.send(cmd)
-			} catch(error) {
+			} catch (error) {
 				instance.log('error', 'previous_program cmd send error')
 			}
 		},
@@ -576,7 +575,7 @@ const getAllActions = function(instance) {
 				instance.log('info', `next_program cmd send: ${cmd}`)
 
 				await instance.udp.send(cmd)
-			} catch(error) {
+			} catch (error) {
 				instance.log('error', 'next_program cmd send error')
 			}
 		},
@@ -584,49 +583,65 @@ const getAllActions = function(instance) {
 
 	actions['bind_media'] = {
 		name: 'bind_media',
-		options: [{
-			id: 'layer_index',
-			label: 'Select Layer',
-			type: 'dropdown',
-			minChoicesForSearch: 1,
-			default: '1',
-			choices: new Array(50).fill(0).map((item, index) => {
-				return {
-					id: `${index + 1}`,
-					label: `Layer ${index + 1}`
-				};
-			}),
+		options: [
+			{
+				id: 'layer_index',
+				label: 'Select Layer',
+				type: 'dropdown',
+				minChoicesForSearch: 1,
+				default: '0',
+				choices: new Array(50).fill(0).map((item, index) => {
+					return {
+						id: `${index}`,
+						label: `Layer ${index + 1}`,
+					}
+				}),
+			},
+			{
+				id: 'program_index',
+				label: 'Select Program',
+				type: 'dropdown',
+				minChoicesForSearch: 1,
+				default: 0,
+				choices: PROGRAM_CHOICES,
+			},
+		],
+		subscribe: (action) => {
+			if (!instance.bindMediaByControl) {
+				instance.bindMediaByControl = {}
+			}
+
+			instance.bindMediaByControl[action.controlId] = {
+				actionId: action.id,
+				program_index: Number(action.options.program_index ?? 0),
+				layer_index: Number(action.options.layer_index ?? 0),
+			}
+			instance.checkFeedbacks('bind_media')
 		},
-		{
-			id: 'program_index',
-			label: 'Select Program',
-			type: 'dropdown',
-			minChoicesForSearch: 1,
-			default: '1',
-			choices: new Array(256).fill(0).map((item, index) => {
-				return {
-					id: `${index + 1}`,
-					label: `Program ${index + 1}`
-				};
-			}),
-		}],
+		unsubscribe: (action) => {
+			const stored = instance.bindMediaByControl?.[action.controlId]
+			if (stored && stored.actionId === action.id) {
+				delete instance.bindMediaByControl[action.controlId]
+				instance.checkFeedbacks('bind_media')
+			}
+		},
 		callback: async (event) => {
 			try {
-				const { program_index = '1', layer_index = '1' } = event.options;
+				const { program_index = '0', layer_index = '0' } = event.options
 
-				const real_layer_index = Number(`${layer_index}`) - 1;
-				const real_program_index = Number(`${program_index}`) - 1;
+				const real_layer_index = Number(`${layer_index}`)
+				const real_program_index = Number(`${program_index}`)
 
 				// 将每个索引值转换为2字节（小端序），然后合并
 				// 例如：1 -> [1, 0], 2 -> [2, 0]
 				const programBytes = [
-					real_program_index & 0xFF,        // 低字节
-					(real_program_index >> 8) & 0xFF  // 高字节
-				];
+					real_program_index & 0xff, // 低字节
+					(real_program_index >> 8) & 0xff, // 高字节
+				]
 				const layerBytes = [
-					real_layer_index & 0xFF,          // 低字节
-					(real_layer_index >> 8) & 0xFF    // 高字节
-				];
+					real_layer_index & 0xff, // 低字节
+					(real_layer_index >> 8) & 0xff, // 高字节
+				]
 
 				const cmd = codec.encodeControlProtocol({
 					tag: 10004,
@@ -635,10 +650,10 @@ const getAllActions = function(instance) {
 					data: [...programBytes, ...layerBytes],
 				})
 				await instance.udp.send(cmd)
-			} catch(error) {
+			} catch (error) {
 				instance.log('error', 'bind_media cmd send error')
 			}
-		}
+		},
 	}
 
 	actions['bind_cue_tag'] = {
@@ -650,22 +665,223 @@ const getAllActions = function(instance) {
 				type: 'number',
 				default: 0,
 				min: 0,
-				max: 99999
-			}
+				max: 99999,
+			},
 		],
 		callback: async (event) => {
 			try {
-				const { cue_tag_index = 0 } = event.options;
+				const { cue_tag_index = 0 } = event.options
 				const cmd = codec.encodeControlProtocol({
 					tag: 10005,
 					dataLen: 2,
 					data: [cue_tag_index],
 				})
 				await instance.udp.send(cmd)
-			} catch(error) {
+			} catch (error) {
 				instance.log('error', 'bind_cue_tag cmd send error')
 			}
-		}
+		},
+	}
+
+	/** 计分器加分：对当前选中的计分器媒体加分，可选步进值（先用 select_media 选中媒体） */
+	actions['score_up'] = {
+		name: 'score_up',
+		options: [
+			{
+				id: 'step',
+				label: 'Step',
+				type: 'number',
+				default: 1,
+				min: 1,
+				max: 999,
+				tooltip: '每次增加的步进值',
+			},
+		],
+		callback: async (event) => {
+			try {
+				const { step = 1 } = event.options
+				const real_step = Number(step)
+
+				// 对当前选中的计分器媒体加分（tag 10039, Type=0x01, Value=step）
+				const scoreCmd = codec.encodeControlProtocol({
+					tag: 10039,
+					dataLen: 3,
+					dataType: 'hex',
+					data: [0x01, real_step & 0xff, (real_step >> 8) & 0xff],
+				})
+				await instance.udp.send(scoreCmd)
+			} catch (error) {
+				instance.log('error', 'score_up cmd send error')
+			}
+		},
+	}
+
+	/** 计分器减分：对当前选中的计分器媒体减分，可选步进值（先用 select_media 选中媒体） */
+	actions['score_down'] = {
+		name: 'score_down',
+		options: [
+			{
+				id: 'step',
+				label: 'Step',
+				type: 'number',
+				default: 1,
+				min: 1,
+				max: 999,
+				tooltip: '每次减少的步进值',
+			},
+		],
+		callback: async (event) => {
+			try {
+				const { step = 1 } = event.options
+				const real_step = Number(step)
+
+				// 对当前选中的计分器媒体减分（tag 10039, Type=0xFF, Value=step）
+				const scoreCmd = codec.encodeControlProtocol({
+					tag: 10039,
+					dataLen: 3,
+					dataType: 'hex',
+					data: [0xff, real_step & 0xff, (real_step >> 8) & 0xff],
+				})
+				await instance.udp.send(scoreCmd)
+				instance.log('info', `score_down cmd: ${Buffer.from(scoreCmd).toString('hex')}`)
+			} catch (error) {
+				instance.log('error', 'score_down cmd send error')
+			}
+		},
+	}
+
+	/** 计分器重置：重置当前选中的计分器媒体主分（先用 select_media 选中媒体） */
+	actions['score_reset'] = {
+		name: 'score_reset',
+		options: [],
+		callback: async (event) => {
+			try {
+				// 重置当前选中的计分器媒体主分（tag 10041, 空数据）
+				const resetCmd = codec.encodeControlProtocol({
+					tag: 10041,
+					dataLen: 0,
+				})
+				instance.log('info', `score_reset cmd: ${Buffer.from(resetCmd).toString('hex')}`)
+				await instance.udp.send(resetCmd)
+			} catch (error) {
+				instance.log('error', 'score_reset cmd send error')
+			}
+		},
+	}
+
+	/** 计分器撤销：撤销当前选中计分器媒体前一步操作（先用 select_media 选中媒体） */
+	actions['score_undo'] = {
+		name: 'score_undo',
+		options: [],
+		callback: async (event) => {
+			try {
+				// 撤销当前选中的计分器媒体前一步操作（tag 10042, 空数据）
+				const undoCmd = codec.encodeControlProtocol({
+					tag: 10042,
+					dataLen: 0,
+				})
+				await instance.udp.send(undoCmd)
+			} catch (error) {
+				instance.log('error', 'score_undo cmd send error')
+			}
+		},
+	}
+
+	/** 计分器设分：将当前选中的计分器媒体主分设为指定分值（先用 select_media 选中媒体） */
+	actions['score_set'] = {
+		name: 'score_set',
+		options: [
+			{
+				id: 'score',
+				label: 'Score',
+				type: 'number',
+				default: 0,
+				min: 0,
+				max: 999,
+				step: 1,
+				asInteger: true,
+				clampValues: true,
+				tooltip: '目标分值，范围 0~999',
+			},
+		],
+		callback: async (event) => {
+			try {
+				const { score = 0 } = event.options
+				const real_score = Math.min(999, Math.max(0, Number(score)))
+
+				// 对当前选中的计分器媒体设置主分（tag 10040, 2字节无符号整数）
+				const setCmd = codec.encodeControlProtocol({
+					tag: 10040,
+					dataLen: 2,
+					data: real_score,
+				})
+				await instance.udp.send(setCmd)
+			} catch (error) {
+				instance.log('error', 'score_set cmd send error')
+			}
+		},
+	}
+
+	/** 选中指定媒体：根据节目ID和图层ID选中指定媒体（tag 10038） */
+	actions['select_media'] = {
+		name: 'select_media',
+		options: [
+			{
+				id: 'program_index',
+				label: 'Select Program',
+				type: 'dropdown',
+				minChoicesForSearch: 1,
+				default: 0,
+				choices: PROGRAM_CHOICES,
+			},
+			{
+				id: 'layer_index',
+				label: 'Select Layer',
+				type: 'dropdown',
+				minChoicesForSearch: 1,
+				default: '0',
+				choices: new Array(50).fill(0).map((item, index) => {
+					return {
+						id: `${index}`,
+						label: `Layer ${index + 1}`,
+					}
+				}),
+			},
+		],
+		subscribe: (action) => {
+			if (!instance.selectMediaByControl) {
+				instance.selectMediaByControl = {}
+			}
+
+			instance.selectMediaByControl[action.controlId] = {
+				actionId: action.id,
+				program_index: Number(action.options.program_index ?? 0),
+				layer_index: Number(action.options.layer_index ?? 0),
+			}
+			instance.checkFeedbacks('selected_media')
+		},
+		unsubscribe: (action) => {
+			const stored = instance.selectMediaByControl?.[action.controlId]
+			if (stored && stored.actionId === action.id) {
+				delete instance.selectMediaByControl[action.controlId]
+				instance.checkFeedbacks('selected_media')
+			}
+		},
+		callback: async (event) => {
+			try {
+				const { program_index = '0', layer_index = '0' } = event.options
+
+				// 选中指定媒体（tag 10038）：ProgramId(低4字节) + LayerId(高4字节)，codec 按小端序自动展开为8字节
+				const selectCmd = codec.encodeControlProtocol({
+					tag: 10038,
+					dataLen: 8,
+					data: Number(program_index) + Number(layer_index) * 0x100000000,
+				})
+				await instance.udp.send(selectCmd)
+			} catch (error) {
+				instance.log('error', 'select_media cmd send error')
+			}
+		},
 	}
 
 	return actions
