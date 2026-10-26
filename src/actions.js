@@ -593,7 +593,7 @@ const getAllActions = function (instance) {
 				choices: new Array(50).fill(0).map((item, index) => {
 					return {
 						id: `${index}`,
-						label: `Layer ${index + 1}`,
+						label: `layerId ${index}`,
 					}
 				}),
 			},
@@ -843,7 +843,7 @@ const getAllActions = function (instance) {
 				choices: new Array(50).fill(0).map((item, index) => {
 					return {
 						id: `${index}`,
-						label: `Layer ${index + 1}`,
+						label: `layerId ${index}`,
 					}
 				}),
 			},
