@@ -12,10 +12,10 @@
     "url": "git+https://github.com/bitfocus/companion-module-pixelhue-mediaserver.git"
   },
   "dependencies": {
-    "@companion-module/base": "~1.5.1"
+    "@companion-module/base": "~1.15.1"
   },
   "devDependencies": {
-    "@companion-module/tools": "2.2.3",
+    "@companion-module/tools": "^2.9.1",
     "prettier": "^3.4.2"
   },
   "prettier": "@companion-module/tools/.prettierrc.json"
