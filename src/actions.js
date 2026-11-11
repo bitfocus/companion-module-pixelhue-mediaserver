@@ -214,7 +214,7 @@ const getActions = function (instance) {
 					...Array(256),
 				].map((_, index) => ({
 					id: index + 1,
-					label: `打开图层${index + 1}声音`,
+					label: `Enable audio for layer ${index + 1}`,
 				})),
 			}
 		],
@@ -251,7 +251,7 @@ const getActions = function (instance) {
 					...Array(256),
 				].map((_, index) => ({
 					id: index + 1,
-					label: `关闭图层${index + 1}声音`,
+					label: `Disable audio for layer ${index + 1}`,
 				})),
 			}
 		],
@@ -326,7 +326,7 @@ const getActions = function (instance) {
 					...Array(256),
 				].map((_, index) => ({
 					id: index + 1,
-					label: `刷新图层${index + 1}网页`,
+					label: `Refresh web page for layer ${index + 1}`,
 				})),
 			}
 		],
@@ -694,7 +694,7 @@ const getAllActions = function (instance) {
 				default: 1,
 				min: 1,
 				max: 999,
-				tooltip: '每次增加的步进值',
+				tooltip: 'Amount to increase the score by each time',
 			},
 		],
 		callback: async (event) => {
@@ -727,7 +727,7 @@ const getAllActions = function (instance) {
 				default: 1,
 				min: 1,
 				max: 999,
-				tooltip: '每次减少的步进值',
+				tooltip: 'Amount to decrease the score by each time',
 			},
 		],
 		callback: async (event) => {
@@ -801,7 +801,7 @@ const getAllActions = function (instance) {
 				step: 1,
 				asInteger: true,
 				clampValues: true,
-				tooltip: '目标分值，范围 0~999',
+				tooltip: 'Target score (0-999)',
 			},
 		],
 		callback: async (event) => {
